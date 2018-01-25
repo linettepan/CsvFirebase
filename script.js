@@ -26,9 +26,9 @@ function generateUUID() {
 
 function uploadPhoto(photoId, photo_name) {
     /* figure out how to store a photo in firebase from local storage */
-    /*
+    //possibly not parenthesis after storage, not sure
     firebase.storage().ref('GatheringPictures/' + photoId).upload('images/photo_name')
-    */
+    
 }
 
 function writeGatheringData(name, description, address, city, state, start_time, end_time, start_date, end_date, photo_name) {
@@ -36,37 +36,72 @@ function writeGatheringData(name, description, address, city, state, start_time,
     setTimeout(999);
     const key_Users_Gatherings = generateUUID();
     setTimeout(999);
+    const photoId = generateUUID();
 
     /* create attendee object that is embedded */
 
     firebase.database().ref('Gatherings/' + keyGatherings).set({
-        //fill it out
-        address: name,
-        email: email,
+        
+        //for the user to set
+        name: name,
+        description: description,
+        address: address,
+        city: city,
+        state: state,
+        start_time: start_time,
+        end_time: end_time,
+        start_date: start_date,
+        end_date: end_date,
+        photo_name: photo_name,
         profile_picture : imageUrl,
+        //stuff that we set
         time_of_creation: Date.now(),
         keyGatherings: keyGatherings,
         key_Users_Gatherings: key_Users_Gatherings,
-        name: name,
-        attendees: "SOMETHING"
+        host: 'Gather Events Team',
+        country: 'USA',
+        hostid: gatherEventsTeamID,
+        number_views: 0,
+        type: 'personal',
+        photoId: photoId,
+        //nested value
+        attendees: {
+        	gathering_owner: gatherEventsTeamID,
+        }
+
     });
 
     firebase.database().ref('User/' + gatherEventsTeamID + '/Gatherings/' + key_Users_Gatherings).set({
-        //fill it out
-        address: name,
-        email: email,
+        
+        //for the user to set
+        name: name,
+        description: description,
+        address: address,
+        city: city,
+        state: state,
+        start_time: start_time,
+        end_time: end_time,
+        start_date: start_date,
+        end_date: end_date,
+        photo_name: photo_name,
+        //stuff that we set
         profile_picture : imageUrl,
         time_of_creation: Date.now(),
         keyGatherings: keyGatherings,
         key_Users_Gatherings: key_Users_Gatherings,
         host: 'Gather Events Team',
         country: 'USA',
-        type: 'personal',
         number_views: 0,
+        type: 'personal',
+        photoId: photoId,
+        //nested value
+        attendees: {
+        	gathering_owner: gatherEventsTeamID,
+        }
 
     });
 
-    const photoId = generateUUID();
+
     uploadPhoto(photoId, photo_name);
 }
 
