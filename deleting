@@ -1,0 +1,40 @@
+        const ref = admin.database().ref('Gatherings/');
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
+
+        var yyyy = today.getFullYear();
+        if(dd<10){
+            dd='0'+dd;
+        } 
+        if(mm<10){
+            mm='0'+mm;
+        } 
+        var today = dd+'/'+mm+'/'+yyyy;
+        //document.getElementById("DATE").value = today;
+
+        console.log('inside if statement here');
+                const old=ref.orderByChild("end_date").endAt(today).limitToLast(1);
+                const listener=old.on('child_added', function(snapshot){
+                    snapshot.ref.remove();
+                });
+                
+                
+                
+                
+                
+            //trying to delete old events here, this was inside the 'final' for loop
+            const ref = admin.database().ref('Gatherings/');
+            const now=Date.now();
+            let us=data[i]['hostid'];
+            //if (us===gatherEventsTeamID){
+                console.log('inside if statement');
+                const old=ref.orderByChild('end_date').endAt(now).limitToLast(1);
+                const listener
+               ref.orderByChild("end_date").endAt(now).limitToLast(1).on("child_added", function(snapshot){
+                    console.log(snapshot.key);
+                });
+           // }
+                    
+                    
+  
